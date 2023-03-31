@@ -32,8 +32,9 @@ import {
   overwriteSelectedListData,
   findAndReplaceEntry,
 } from './utils/storage';
+import { platformOS } from './utils/platforms';
 
-const App = () => {
+export const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedKey, setSelectedKey] = useState(CONSTANTS.KEYS[0]);
   const [data, setData] = useState(CONSTANTS.STORE);
@@ -41,6 +42,7 @@ const App = () => {
   const [popoverData, setPopoverData] = useState(null);
   const [lastSelectedTarget, setLastSelectedTarget] = useState(null);
   const [completedVisible, setCompletedVisible] = useState(true);
+  const platform  = platformOS('macos');
 
   const readListDataFromStorage = () => {
     const item = getStoredData('remindersLists', listData);
@@ -158,7 +160,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Popover style={{ position: 'absolute' }}>{popoverData}</Popover>
+      {platform && <Popover style={{ position: 'absolute' }}>{popoverData}</Popover>}
       <View style={styles.sourceList}>
         <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <Sections
@@ -347,5 +349,3 @@ const App = () => {
     </View>
   );
 };
-
-export default App;
